@@ -1,0 +1,51 @@
+220721 1. 백준_실버4_1026_보물
+
+배열 b를 정렬하면 안된다. 오직 a만 건드려야한다.
+핵심은 고정된 배열에서 그 배열의 인덱스 크기 순으로 새 배열을 만드는 것이다.
+[2, 7, 8, 3, 1, 3, 2] => [1, 5, 6, 3, 0, 4, 2]
+
+```
+      function solution(n, a, b) {
+        a.sort((x, y) => y - x);
+        let answer = 0;
+        let check = Array.from({ length: n }, () => 0);
+        let max = Math.max(b);
+        let cnt = 0;
+        let i = 0;
+        while (cnt < n) {
+          for (let j = 0; j < n; j++) {
+            if (b[j] === i) check[j] = cnt++;
+          }
+          i++;
+        }
+        for (let i = 0; i < check.length; i++) {
+          answer += a[check[i]] * b[i];
+        }
+        return answer;
+      }
+```
+
+220721 2. 백준_실버1_1931_회의실 배정
+
+알고리즘 보다는 생각 문제다. n이 10만 이상이면 for 두번은 절대 안된다.
+
+```
+      function solution(n, time) {
+        time.sort((a, b) => {
+          if (a[1] === b[1]) return a[0] - b[0];
+          else return a[1] - b[1];
+        });
+
+        let cnt = 1;
+        let tmp = time[0][1];
+
+        for (let i = 1; i < n; i++) {
+          if (tmp <= time[i][0]) {
+            tmp = time[i][1];
+            cnt++;
+          }
+        }
+
+        return cnt;
+      }
+```

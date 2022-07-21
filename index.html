@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>코딩테스트 문제 정리</title>
-</head>
-<body>
-    <div>오늘은 코테에 너무 집중해서 깃을 못채웠지만 아까우니 올리자...</div>
-</body>
+  </head>
+  <body>
+    <script>
+      function solution(n, time) {
+        time.sort((a, b) => {
+          if (a[1] === b[1]) return a[0] - b[0];
+          else return a[1] - b[1];
+        });
+
+        let cnt = 1;
+        let tmp = time[0][1];
+
+        for (let i = 1; i < n; i++) {
+          if (tmp <= time[i][0]) {
+            tmp = time[i][1];
+            cnt++;
+          }
+        }
+
+        return cnt;
+      }
+
+      let a = 11;
+      let b = [
+        [1, 4],
+        [3, 5],
+        [0, 6],
+        [5, 7],
+        [3, 8],
+        [5, 9],
+        [6, 10],
+        [8, 11],
+        [8, 12],
+        [2, 13],
+        [12, 14],
+      ];
+
+      console.log(solution(a, b));
+    </script>
+  </body>
 </html>

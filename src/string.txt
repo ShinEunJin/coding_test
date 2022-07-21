@@ -1,0 +1,20 @@
+220721 1. 프로그래머스_2_이진 변환 반복하기
+
+문자변환은 웬만하면 정규표현식 사용하는게 좋다.
+
+```
+    function solution(s) {
+        let times = 0;
+        let deleted = 0;
+
+        while (s !== "1" && s.length > 0) {
+          let beforeS = s;
+          s = s.replace(/0/g, "");
+          deleted += beforeS.length - s.length;
+          s = s.length.toString(2);
+          times++;
+        }
+
+        return [times, deleted];
+      }
+```
