@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>코딩테스트 문제 정리</title>
-  </head>
-  <body>
-    <script>
+220722 1. 백준_실버2_11053_가장 긴 증가하는 부분 수열
+
+유명한 문제다.
+[40, 10, 60, 20, 20, 5, 30, 20, 50]
+[1, 1, 1, 1, 1, 1, 1, 1, 1] <- check 배열
+60은 40보다 크니까 2가 된다. 그리고 10보다도 크지만 60의 체크배열값은
+10의 체크배열값 1에서 1을 더한 값 2와 같다. 즉, 굳이 값을 올릴필요가 없다는거다.
+
+```
       function solution(n, arr) {
         let check = Array.from({ length: n }, () => 1);
 
@@ -21,11 +22,4 @@
 
         return Math.max(...check);
       }
-
-      let a = 9;
-      let b = [40, 10, 60, 20, 20, 5, 30, 20, 50];
-
-      console.log(solution(a, b));
-    </script>
-  </body>
-</html>
+```
