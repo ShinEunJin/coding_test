@@ -6,26 +6,39 @@
   </head>
   <body>
     <script>
-      function solution(n, arr) {
-        let check = Array.from({ length: n }, () => 1);
+      function solution(n, nums, oper) {
+        let answer = [];
 
-        for (let i = 0; i < n; i++) {
-          let tmp = check[i];
-          for (let j = 0; j <= i; j++) {
-            if (arr[j] < arr[i] && check[j] + 1 > tmp) {
-              tmp = check[j] + 1;
+        function search(L, sum) {
+          let priorSum = sum;
+          if (L === n - 1) answer.push(sum);
+          else {
+            for (let i = 0; i < 4; i++) {
+              if (oper[i] > 0) {
+                if (i === 0) sum += nums[L + 1];
+                if (i === 1) sum -= nums[L + 1];
+                if (i === 2) sum *= nums[L + 1];
+                if (i === 3) sum = parseInt(sum / nums[L + 1]);
+
+                oper[i]--;
+                search(L + 1, sum);
+                sum = priorSum;
+                oper[i]++;
+              }
             }
           }
-          check[i] = tmp;
         }
 
-        return Math.max(...check);
+        search(0, nums[0]);
+
+        return [Math.max(...answer), Math.min(...answer)];
       }
 
-      let a = 9;
-      let b = [40, 10, 60, 20, 20, 5, 30, 20, 50];
+      let a = 6;
+      let b = [1, 2, 3, 4, 5, 6];
+      let c = [2, 1, 1, 1];
 
-      console.log(solution(a, b));
+      console.log(solution(a, b, c));
     </script>
   </body>
 </html>
