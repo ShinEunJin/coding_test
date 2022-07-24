@@ -1,0 +1,39 @@
+220724 1. 백준_실버1_14888_연산자 끼워넣기
+
+백트랙킹 재귀 문제. 내가 지금까지 공부한 백트래킹에서 확장된 개념을 사용해야 해서 어려웠다.
+ex) oper = [2, 1, 1, 1]이 주어지면 for문을 돌면서 oper의 인덱스 값을 감소시키고 다시 재귀하면서
+인덱스 값을 돌리는 전형적인 백트랙킹을 써야한다.
+
+재귀 문제에서 정말 중요한 것.
+L, sum 은 재귀함수 파라미터로 전달해주고 있지만 oper은 재귀함수 밖에서 돌아가고 있기 때문에
+oper[i]++ 처럼 다시 값을 돌려줘야 한다.
+만약 sum을 파라미터로 넣지 않는다면 재귀함수 안에
+let priorSum = sum 이전 값을 초기화 해주고
+oper[i]++ 와 함께 값을 복구시키기 위해 sum = priorSum을 해줘야 한다.
+그냥 파라미터로 넣어주는게 편하다.
+
+```
+      function solution(n, nums, oper) {
+        let answer = [];
+
+        function search(L, sum) {
+          if (L === n - 1) answer.push(sum);
+          else {
+            for (let i = 0; i < 4; i++) {
+              if (oper[i] > 0) {
+                oper[i]--;
+                if (i === 0) search(L + 1, sum + nums[L + 1]);
+                if (i === 1) search(L + 1, sum - nums[L + 1]);
+                if (i === 2) search(L + 1, sum * nums[L + 1]);
+                if (i === 3) search(L + 1, parseInt(sum / nums[L + 1]));
+                oper[i]++;
+              }
+            }
+          }
+        }
+
+        search(0, nums[0]);
+
+        return [Math.max(...answer), Math.min(...answer)];
+      }
+```
