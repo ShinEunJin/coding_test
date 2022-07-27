@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>코딩테스트 문제 정리</title>
-  </head>
-  <body>
-    <script>
+220727 1. 백준_실버1_1697_숨바꼭질
+
+bfs 전형적인 문제. bfs 에서 어떻게 level 단계를 넣는지 알 수 있는 문제다.
+그리고 체크배열함수를 통해서 반복을 없애줘서 효율성을 높인다.
+
+```
       function solution(n, k) {
         let check = Array.from({ length: 10 ** 5 + 1 }, () => 0);
         let queue = [[n, 0]];
@@ -21,11 +19,4 @@
           }
         }
       }
-
-      let a = 1;
-      let b = 93933;
-
-      console.log(solution(a, b));
-    </script>
-  </body>
-</html>
+```

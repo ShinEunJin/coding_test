@@ -18,3 +18,17 @@
         return [times, deleted];
       }
 ```
+
+220727 2. 백준_실버4_11656_접미사 배열
+
+너무 쉬우니까 패스
+
+```
+      function solution(s) {
+        let answer = [];
+        for (let i = 0; i < s.length; i++) {
+          answer.push(s.slice(i));
+        }
+        return answer.sort();
+      }
+```
