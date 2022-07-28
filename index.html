@@ -6,26 +6,37 @@
   </head>
   <body>
     <script>
-      function solution(n, k) {
-        let check = Array.from({ length: 10 ** 5 + 1 }, () => 0);
-        let queue = [[n, 0]];
+      function solution(n, m, breakdown) {
+        let answer = 500000;
 
-        while (queue.length) {
-          const [v, i] = queue.shift();
-          if (v === k) return i;
-          for (let nv of [v * 2, v + 1, v - 1]) {
-            if (!check[nv] && 0 <= nv && nv <= 10 ** 5) {
-              check[nv] = 1;
-              queue.push([nv, i + 1]);
+        if (m === 10) return Math.abs(n - 100);
+
+        let btns = Array.from({ length: 10 }, (_, i) => i).filter(
+          (v) => !breakdown.includes(v)
+        );
+
+        function search(L, channel, len) {
+          if (L === len)
+            answer = Math.min(answer, Math.abs(n - Number(channel)) + len);
+          else {
+            for (let i = 0; i < btns.length; i++) {
+              search(L + 1, channel + String(btns[i]), len);
             }
           }
         }
+
+        for (let i = 1; i <= 6; i++) {
+          search(0, "", i);
+        }
+
+        return Math.min(Math.abs(n - 100), answer);
       }
 
-      let a = 1;
-      let b = 93933;
+      let a = 500000;
+      let b = 10;
+      let c = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-      console.log(solution(a, b));
+      console.log(solution(a, b, c));
     </script>
   </body>
 </html>

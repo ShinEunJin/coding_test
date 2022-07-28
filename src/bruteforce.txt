@@ -1,0 +1,37 @@
+1. 백준_골드5_1107_리모컨
+
+완전탐색 문제. 재귀를 통해 풀었다. 처음에는 각각의 경우를 구해서 해결할라 했지만 너무 경우의 
+수가 많았다. 그리고 범위가 0에서 500000까지인데 이게 중복순열로 계산해보면 최대 시간복잡도가
+10**6 밖에 안되서 탐욕법으로 풀었다.
+헷갈렸던거는 시작값이 100이라는거다. 이건 함정이였다. 그냥 재귀로 구한 최솟값과
+마지막에 비교하면 되는거였다. 그리고 재귀를 종료하는 L이 1 ~ 6 경우의 수 모두를 구해야했다.
+알고리즘 자체보다는 문제를 어떻게 풀어야할지 방법을 생각하는게 어려웠던 문제였고
+특이케이스를 고려해야하는 쉽지 않은 문제였다.
+
+```
+      function solution(n, m, breakdown) {
+        let answer = 500000;
+
+        if (m === 10) return Math.abs(n - 100);
+
+        let btns = Array.from({ length: 10 }, (_, i) => i).filter(
+          (v) => !breakdown.includes(v)
+        );
+
+        function search(L, channel, len) {
+          if (L === len)
+            answer = Math.min(answer, Math.abs(n - Number(channel)) + len);
+          else {
+            for (let i = 0; i < btns.length; i++) {
+              search(L + 1, channel + String(btns[i]), len);
+            }
+          }
+        }
+
+        for (let i = 1; i <= 6; i++) {
+          search(0, "", i);
+        }
+
+        return Math.min(Math.abs(n - 100), answer);
+      }
+```
