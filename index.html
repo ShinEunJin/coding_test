@@ -6,37 +6,37 @@
   </head>
   <body>
     <script>
-      function solution(n, m, breakdown) {
-        let answer = 500000;
+      function solution(n, testcase) {
+        let answer = [0, 0];
+        let len = Math.max(...testcase);
+        let check = Array.from({ length: len }, () => 0);
 
-        if (m === 10) return Math.abs(n - 100);
-
-        let btns = Array.from({ length: 10 }, (_, i) => i).filter(
-          (v) => !breakdown.includes(v)
-        );
-
-        function search(L, channel, len) {
-          if (L === len)
-            answer = Math.min(answer, Math.abs(n - Number(channel)) + len);
+        function fibonacci(num) {
+          if (num === 0) {
+            answer[0]++;
+            return 0;
+          }
+          if (num === 1) {
+            answer[1]++;
+            return 1;
+          }
+          if (check[num]) return check[num];
           else {
-            for (let i = 0; i < btns.length; i++) {
-              search(L + 1, channel + String(btns[i]), len);
-            }
+            return (check[num] = fibonacci(num - 2) + fibonacci(num - 1));
           }
         }
 
-        for (let i = 1; i <= 6; i++) {
-          search(0, "", i);
+        fibonacci(len);
+        console.log(check);
+        for (let x of testcase) {
+          console.log(check[x - 1], check[x]);
         }
-
-        return Math.min(Math.abs(n - 100), answer);
       }
 
-      let a = 500000;
-      let b = 10;
-      let c = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      let a = 2;
+      let b = [0, 1, 2, 3, 6, 22];
 
-      console.log(solution(a, b, c));
+      console.log(solution(a, b));
     </script>
   </body>
 </html>
