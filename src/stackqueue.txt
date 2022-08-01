@@ -32,3 +32,27 @@
         return stack.length ? false : true
     }
 ```
+
+220801 3. 백준_실버4_1158_요세푸스 문제
+
+유명한 큐 문제. 배열을 만들고 시뮬레이션을 돌려보면 쉽게 구할 수 있다.
+
+```
+      function solution(n, k) {
+        let answer = "";
+        let queue = Array.from({ length: n }, (_, i) => i + 1);
+
+        let i = 0;
+        while (queue.length) {
+          let tmp = queue.shift();
+          if (++i === k) {
+            answer += `${tmp}, `;
+            i = 0;
+          } else {
+            queue.push(tmp);
+          }
+        }
+
+        return `<${answer.slice(0, -2)}>`;
+      }
+```

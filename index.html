@@ -6,22 +6,26 @@
   </head>
   <body>
     <script>
-      function solution(priorities, location) {
-        priorities = priorities.map((v, i) => [v, i]);
-        let cnt = 0;
+      function solution(n, k) {
+        let answer = "";
+        let queue = Array.from({ length: n }, (_, i) => i + 1);
 
-        while (true) {
-          let tmp = priorities.shift();
-          if (priorities.some((v) => v[0] > tmp[0])) priorities.push(tmp);
-          else {
-            cnt++;
-            if (tmp[1] === location) return cnt;
+        let i = 0;
+        while (queue.length) {
+          let tmp = queue.shift();
+          if (++i === k) {
+            answer += `${tmp}, `;
+            i = 0;
+          } else {
+            queue.push(tmp);
           }
         }
+
+        return `<${answer.slice(0, -2)}>`;
       }
 
-      let a = [1, 2, 3, 4, 5];
-      let b = 2;
+      let a = 7;
+      let b = 3;
 
       console.log(solution(a, b));
     </script>
