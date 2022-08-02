@@ -6,26 +6,27 @@
   </head>
   <body>
     <script>
-      function solution(n, k) {
-        let answer = "";
-        let queue = Array.from({ length: n }, (_, i) => i + 1);
+      function solution(n, l) {
+        let answer = [];
 
-        let i = 0;
-        while (queue.length) {
-          let tmp = queue.shift();
-          if (++i === k) {
-            answer += `${tmp}, `;
-            i = 0;
-          } else {
-            queue.push(tmp);
+        while (true) {
+          let tmp = n - (l * (l - 1)) / 2;
+          if (tmp < 0) return -1;
+          if (l > 100) return -1;
+          if (tmp % l === 0) {
+            for (let i = tmp / l; i <= tmp / l + l - 1; i++) {
+              answer.push(i);
+            }
+            break;
           }
+          l++;
         }
 
-        return `<${answer.slice(0, -2)}>`;
+        return answer;
       }
 
-      let a = 7;
-      let b = 3;
+      let a = 1000000000;
+      let b = 2;
 
       console.log(solution(a, b));
     </script>
