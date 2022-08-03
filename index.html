@@ -6,27 +6,27 @@
   </head>
   <body>
     <script>
-      function solution(n, l) {
+      function solution(m, n) {
         let answer = [];
+        let check = Array.from({ length: n + 1 }, () => 0);
 
-        while (true) {
-          let tmp = n - (l * (l - 1)) / 2;
-          if (tmp < 0) return -1;
-          if (l > 100) return -1;
-          if (tmp % l === 0) {
-            for (let i = tmp / l; i <= tmp / l + l - 1; i++) {
-              answer.push(i);
+        for (let i = 2; i * i <= n; i++) {
+          if (!check[i]) {
+            for (let j = i * i; j <= n; j += i) {
+              check[j] = i;
             }
-            break;
           }
-          l++;
+        }
+
+        for (let i = m; i <= n; i++) {
+          if (!check[i]) answer.push(i);
         }
 
         return answer;
       }
 
-      let a = 1000000000;
-      let b = 2;
+      let a = 2;
+      let b = 1000000;
 
       console.log(solution(a, b));
     </script>
