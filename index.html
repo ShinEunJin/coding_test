@@ -6,29 +6,103 @@
   </head>
   <body>
     <script>
-      function solution(m, n) {
-        let answer = [];
-        let check = Array.from({ length: n + 1 }, () => 0);
+      function solution(n, people) {
+        let answer = 0;
+        let arr = Array.from({ length: n }, () => Array(n).fill(0));
 
-        for (let i = 2; i * i <= n; i++) {
-          if (!check[i]) {
-            for (let j = i * i; j <= n; j += i) {
-              check[j] = i;
+        let dx = [0, 1, 0, -1];
+        let dy = [1, 0, -1, 0];
+
+        for (let s = 0; s < people.length; s++) {
+          let [target, ...likes] = people[s];
+          let result = [];
+          for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+              let cntLike = 0;
+              let cntBlank = 0;
+              for (let k = 0; k < 4; k++) {
+                let pi = i + dx[k];
+                let pj = j + dy[k];
+                if (0 <= pi && pi < n && 0 <= pj && pj < n && !arr[i][j]) {
+                  if (likes.includes(arr[pi][pj])) cntLike++;
+                  if (!arr[pi][pj]) cntBlank++;
+                }
+              }
+              result.push([cntLike, cntBlank, [i, j]]);
             }
           }
-        }
 
-        for (let i = m; i <= n; i++) {
-          if (!check[i]) answer.push(i);
-        }
+          let like = 0;
+          let blank = 0;
+          let position = [0, 0];
+          console.log(result);
+          for (let i = 0; i < result.length; i++) {
+            if (result[i][0] >= like) {
+              if (result[i][0] === like) {
+                if (result[i][1] > blank) {
+                  blank = result[i][1];
+                  position = [result[i][2][0], result[i][2][1]];
+                }
+              } else {
+                blank = result[i][1];
+                like = result[i][0];
+                position = [result[i][2][0], result[i][2][1]];
+              }
+            }
+          }
 
+          arr[position[0]][position[1]] = target;
+        }
+        console.log(arr);
+
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            let cnt = 0;
+            let check = [];
+            for (let s = 0; s < people.length; s++) {
+              if (people[s][0] === arr[i][j]) check = people[s].slice(1);
+            }
+            for (let k = 0; k < 4; k++) {
+              let pi = i + dx[k];
+              let pj = j + dy[k];
+              if (
+                0 <= pi &&
+                pi < n &&
+                0 <= pj &&
+                pj < n &&
+                check.includes(arr[pi][pj])
+              )
+                cnt++;
+            }
+            if (cnt > 0) answer += 10 ** (cnt - 1);
+          }
+        }
         return answer;
       }
 
-      let a = 2;
-      let b = 1000000;
+      let a = 4;
+      let b = [
+        [4, 2, 5, 1, 7, 6],
+        [3, 1, 9, 4, 5, 8],
+        [9, 8, 1, 2, 3, 12],
+        [8, 1, 9, 3, 4, 15],
+        [7, 2, 3, 4, 8, 11],
+        [1, 9, 2, 5, 7, 13],
+        [6, 5, 2, 3, 4, 14],
+        [5, 1, 9, 2, 8, 3],
+        [2, 9, 3, 1, 4, 13],
+        [10, 1, 5, 2, 6],
+        [16, 13, 11, 9, 5],
+        [11, 12, 16, 2, 5],
+        [14, 2, 3, 4, 5],
+        [12, 13, 7, 3, 15],
+        [13, 8, 1, 5, 12],
+        [15, 6, 16, 14, 1],
+      ];
 
       console.log(solution(a, b));
     </script>
   </body>
 </html>
+
+답은 [[12, 7, 14, 16], [6, 4, 3, 5], [13, 8, 9, 1], [15, 11, 2, 10]]
