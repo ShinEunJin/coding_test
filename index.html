@@ -18,40 +18,46 @@
           let result = [];
           for (let i = 0; i < n; i++) {
             for (let j = 0; j < n; j++) {
-              let cntLike = 0;
-              let cntBlank = 0;
-              for (let k = 0; k < 4; k++) {
-                let pi = i + dx[k];
-                let pj = j + dy[k];
-                if (0 <= pi && pi < n && 0 <= pj && pj < n && !arr[i][j]) {
-                  if (likes.includes(arr[pi][pj])) cntLike++;
-                  if (!arr[pi][pj]) cntBlank++;
+              if (arr[i][j]) result.push(null);
+              else {
+                let cntLike = 0;
+                let cntBlank = 0;
+                for (let k = 0; k < 4; k++) {
+                  let pi = i + dx[k];
+                  let pj = j + dy[k];
+                  if (0 <= pi && pi < n && 0 <= pj && pj < n && !arr[i][j]) {
+                    if (likes.includes(arr[pi][pj])) cntLike++;
+                    if (!arr[pi][pj]) cntBlank++;
+                  }
                 }
+                result.push([cntLike, cntBlank, [i, j]]);
               }
-              result.push([cntLike, cntBlank, [i, j]]);
             }
           }
 
-          let like = 0;
-          let blank = 0;
-          let position = [0, 0];
           console.log(result);
+          let first = true;
           for (let i = 0; i < result.length; i++) {
-            if (result[i][0] >= like) {
-              if (result[i][0] === like) {
-                if (result[i][1] > blank) {
-                  blank = result[i][1];
-                  position = [result[i][2][0], result[i][2][1]];
+            if (result[i]) {
+              if (first) tmp = [...result[i]];
+              first = false;
+              if (result[i][0] > tmp[0]) {
+                tmp = [...result[i]];
+                continue;
+              }
+              if (result[i][0] === tmp[0]) {
+                if (result[i][1] > tmp[1]) {
+                  tmp = [...result[i]];
+                  continue;
                 }
-              } else {
-                blank = result[i][1];
-                like = result[i][0];
-                position = [result[i][2][0], result[i][2][1]];
+                if (result[i][1] === tmp[1]) {
+                  continue;
+                }
               }
             }
           }
 
-          arr[position[0]][position[1]] = target;
+          arr[tmp[2][0]][tmp[2][1]] = target;
         }
         console.log(arr);
 
