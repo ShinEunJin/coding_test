@@ -6,109 +6,46 @@
   </head>
   <body>
     <script>
-      function solution(n, people) {
-        let answer = 0;
-        let arr = Array.from({ length: n }, () => Array(n).fill(0));
+      function solution(maps) {
+        let queue = [[0, 0, 1]];
+        let row = maps.length;
+        let col = maps[0].length;
 
-        let dx = [0, 1, 0, -1];
-        let dy = [1, 0, -1, 0];
-
-        for (let s = 0; s < people.length; s++) {
-          let [target, ...likes] = people[s];
-          let result = [];
-          for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n; j++) {
-              if (arr[i][j]) result.push(null);
-              else {
-                let cntLike = 0;
-                let cntBlank = 0;
-                for (let k = 0; k < 4; k++) {
-                  let pi = i + dx[k];
-                  let pj = j + dy[k];
-                  if (0 <= pi && pi < n && 0 <= pj && pj < n && !arr[i][j]) {
-                    if (likes.includes(arr[pi][pj])) cntLike++;
-                    if (!arr[pi][pj]) cntBlank++;
-                  }
-                }
-                result.push([cntLike, cntBlank, [i, j]]);
-              }
+        while (queue.length) {
+          let [y, x, cnt] = queue.shift();
+          if (y === row - 1 && x === col - 1) return cnt;
+          let dict = [
+            [y + 1, x],
+            [y - 1, x],
+            [y, x - 1],
+            [y, x + 1],
+          ];
+          for (let [ny, nx] of dict) {
+            if (
+              0 <= nx &&
+              nx < col &&
+              0 <= ny &&
+              ny < row &&
+              maps[ny][nx] === 1
+            ) {
+              maps[ny][nx] = 0;
+              queue.push([ny, nx, cnt + 1]);
             }
-          }
-
-          console.log(result);
-          let first = true;
-          for (let i = 0; i < result.length; i++) {
-            if (result[i]) {
-              if (first) tmp = [...result[i]];
-              first = false;
-              if (result[i][0] > tmp[0]) {
-                tmp = [...result[i]];
-                continue;
-              }
-              if (result[i][0] === tmp[0]) {
-                if (result[i][1] > tmp[1]) {
-                  tmp = [...result[i]];
-                  continue;
-                }
-                if (result[i][1] === tmp[1]) {
-                  continue;
-                }
-              }
-            }
-          }
-
-          arr[tmp[2][0]][tmp[2][1]] = target;
-        }
-        console.log(arr);
-
-        for (let i = 0; i < n; i++) {
-          for (let j = 0; j < n; j++) {
-            let cnt = 0;
-            let check = [];
-            for (let s = 0; s < people.length; s++) {
-              if (people[s][0] === arr[i][j]) check = people[s].slice(1);
-            }
-            for (let k = 0; k < 4; k++) {
-              let pi = i + dx[k];
-              let pj = j + dy[k];
-              if (
-                0 <= pi &&
-                pi < n &&
-                0 <= pj &&
-                pj < n &&
-                check.includes(arr[pi][pj])
-              )
-                cnt++;
-            }
-            if (cnt > 0) answer += 10 ** (cnt - 1);
           }
         }
-        return answer;
+
+        return -1;
       }
 
-      let a = 4;
-      let b = [
-        [4, 2, 5, 1, 7, 6],
-        [3, 1, 9, 4, 5, 8],
-        [9, 8, 1, 2, 3, 12],
-        [8, 1, 9, 3, 4, 15],
-        [7, 2, 3, 4, 8, 11],
-        [1, 9, 2, 5, 7, 13],
-        [6, 5, 2, 3, 4, 14],
-        [5, 1, 9, 2, 8, 3],
-        [2, 9, 3, 1, 4, 13],
-        [10, 1, 5, 2, 6],
-        [16, 13, 11, 9, 5],
-        [11, 12, 16, 2, 5],
-        [14, 2, 3, 4, 5],
-        [12, 13, 7, 3, 15],
-        [13, 8, 1, 5, 12],
-        [15, 6, 16, 14, 1],
+      let a = [
+        [1, 0, 1, 1, 1],
+        [1, 0, 1, 0, 1],
+        [1, 0, 1, 1, 1],
+        [1, 1, 1, 0, 1],
+        [0, 0, 0, 0, 1],
       ];
 
-      console.log(solution(a, b));
+      console.log(solution(a));
     </script>
   </body>
 </html>
-
-답은 [[12, 7, 14, 16], [6, 4, 3, 5], [13, 8, 9, 1], [15, 11, 2, 10]]

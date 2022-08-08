@@ -20,3 +20,85 @@ bfs 전형적인 문제. bfs 에서 어떻게 level 단계를 넣는지 알 수 
         }
       }
 ```
+
+220808 2. 프로그래머스_2_게임 맵 최단거리
+
+미로 탐색. dfs를 사용하면 시간초과되서 최단 거리 문제는 bfs로 풀어야한다.
+
+```
+      function solution(maps) {
+        let answer = 1;
+        let queue = [[0, 0]];
+
+        while (queue.length) {
+          let len = queue.length;
+          for (let i = 0; i < len; i++) {
+            let [x, y] = queue.shift();
+            let dict = [
+              [x + 1, y],
+              [x - 1, y],
+              [x, y - 1],
+              [x, y + 1],
+            ];
+            if (x === maps.length - 1 && y === maps[0].length - 1)
+              return answer;
+            for (let [nx, ny] of dict) {
+              if (
+                0 <= nx &&
+                nx < maps.length &&
+                0 <= ny &&
+                ny < maps[0].length &&
+                maps[nx][ny] === 1
+              ) {
+                maps[nx][ny] = 0;
+                queue.push([nx, ny]);
+              }
+            }
+          }
+          answer++;
+        }
+
+        return -1;
+      }
+```
+
+처음에는 위 처럼 풀었다. bfs에서 queue를 한번 순회할때마다 
+끝에서 answer++로 증가치를 주는 방식인데
+이렇게 하는 방법보다 queue에 인덱스 배열 요소로 cnt를 주는것이 더 가독성이 좋다.
+
+```
+      function solution(maps) {
+        let queue = [[0, 0, 1]];
+        let row = maps.length;
+        let col = maps[0].length;
+
+        while (queue.length) {
+          let [y, x, cnt] = queue.shift();
+          if (y === row - 1 && x === col - 1) return cnt;
+          let dict = [
+            [y + 1, x],
+            [y - 1, x],
+            [y, x - 1],
+            [y, x + 1],
+          ];
+          for (let [ny, nx] of dict) {
+            if (
+              0 <= nx &&
+              nx < col &&
+              0 <= ny &&
+              ny < row &&
+              maps[ny][nx] === 1
+            ) {
+              maps[ny][nx] = 0;
+              queue.push([ny, nx, cnt + 1]);
+            }
+          }
+        }
+
+        return -1;
+      }
+```
+
+최종 정리 코드. queue 인덱스 마지막 요소로 cnt를 줘서 가독성이 좋아졌다.
+그리고 문제 풀때 주의할 점이 있다. row 와 col 이 많이 헷갈릴 수 있다.
+y축은 row, x축은 col과 연관있고 헷갈린다면 col을 중심으로 생각하면 편하다.
