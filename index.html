@@ -6,44 +6,15 @@
   </head>
   <body>
     <script>
-      function solution(maps) {
-        let queue = [[0, 0, 1]];
-        let row = maps.length;
-        let col = maps[0].length;
-
-        while (queue.length) {
-          let [y, x, cnt] = queue.shift();
-          if (y === row - 1 && x === col - 1) return cnt;
-          let dict = [
-            [y + 1, x],
-            [y - 1, x],
-            [y, x - 1],
-            [y, x + 1],
-          ];
-          for (let [ny, nx] of dict) {
-            if (
-              0 <= nx &&
-              nx < col &&
-              0 <= ny &&
-              ny < row &&
-              maps[ny][nx] === 1
-            ) {
-              maps[ny][nx] = 0;
-              queue.push([ny, nx, cnt + 1]);
-            }
-          }
+      function solution(n) {
+        let dp = [0, 1, 2, 4];
+        for (let i = 4; i <= n; i++) {
+          dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1];
         }
-
-        return -1;
+        return dp[n];
       }
 
-      let a = [
-        [1, 0, 1, 1, 1],
-        [1, 0, 1, 0, 1],
-        [1, 0, 1, 1, 1],
-        [1, 1, 1, 0, 1],
-        [0, 0, 0, 0, 1],
-      ];
+      let a = 7;
 
       console.log(solution(a));
     </script>
