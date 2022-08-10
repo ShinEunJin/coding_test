@@ -37,3 +37,63 @@ oper[i]++ 와 함께 값을 복구시키기 위해 sum = priorSum을 해줘야 �
         return [Math.max(...answer), Math.min(...answer)];
       }
 ```
+
+220809 2. 백준_골드5_1038_감소하는 수
+
+감소하는 수의 최댓값이 9876543210 이란것을 알면 쉽게는 아니지만 암튼 풀 수 있는 문제다.
+큰 특징은 없지만 백트랙킹 + 조합 을 공부 할 수 있는 좋은 문제다.
+
+```
+      function solution(n) {
+        let answer = [];
+        let check = Array.from({ length: 10 }, () => 0);
+        let tmp = [];
+        function DFS(L, s, t) {
+          if (L === t) answer.push(Number(tmp.join("").slice()));
+          else {
+            for (let i = s; i >= 0; i--) {
+              tmp[L] = i;
+              DFS(L + 1, i - 1, t);
+              tmp[L] = "";
+            }
+          }
+        }
+
+        for (let i = 10; i >= 1; i--) {
+          DFS(0, 9, i);
+        }
+        
+        return answer[answer.length - n - 1];
+      }
+```
+
+220810 3. 백준_골드5_1068_트리
+
+```
+      function solution(n, arr, target) {
+        let tree = [];
+        let cnt = 0;
+        let start = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i] === -1) start = i;
+          else tree[arr[i]] = tree[arr[i]] ? [...tree[arr[i]], i] : [i];
+        }
+
+        function DFS(L) {
+          if (L === target) return;
+          if (tree[L]) {
+            for (let i of tree[L]) {
+              if (tree[L].length === 1) cnt++;
+              else DFS(i);
+            }
+          } else {
+            cnt++;
+          }
+        }
+
+        DFS(start);
+
+        return cnt;
+      }
+```
