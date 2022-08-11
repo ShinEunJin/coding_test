@@ -1,0 +1,28 @@
+220811 1. 백준_골드5_1092_배
+
+```
+      function solution(crane, box) {
+        crane.sort((a, b) => b - a);
+        box = box.sort((a, b) => b - a);
+
+        if (box[0] > crane[0]) return -1;
+
+        let cnt = 0;
+
+        while (box.length) {
+          for (let freight of crane) {
+            let tmp = box.slice();
+            for (let i = 0; i < box.length; i++) {
+              if (box[i] <= freight) {
+                box.splice(i, 1);
+                break;
+              }
+            }
+            if (tmp.length === box.length) break;
+          }
+          cnt++;
+        }
+
+        return cnt;
+      }
+```

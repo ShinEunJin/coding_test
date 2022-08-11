@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>코딩테스트 문제 정리</title>
-  </head>
-  <body>
-    <script>
+220811 1. 프로그래머스_2_쿼드압축 후 개수 세기
+
+```
       function solution(arr) {
         let zeroCnt = 0;
         let oneCnt = 0;
@@ -32,19 +27,4 @@
 
         return [zeroCnt, oneCnt];
       }
-
-      let a = [
-        [1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 1, 1, 1, 1],
-        [0, 1, 0, 0, 1, 1, 1, 1],
-        [0, 0, 0, 0, 0, 0, 1, 1],
-        [0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 1, 0, 0, 1],
-        [0, 0, 0, 0, 1, 1, 1, 1],
-      ];
-
-      console.log(solution(a));
-    </script>
-  </body>
-</html>
+```

@@ -69,6 +69,9 @@ oper[i]++ 와 함께 값을 복구시키기 위해 sum = priorSum을 해줘야 �
 
 220810 3. 백준_골드5_1068_트리
 
+트리 문제. 어려웠다. 예외 제거가 어렵다. if (tree[L].length === 1) cnt++ 이것은
+무조건 target이 n 이하로 주워졌을 때만 작동된다.
+
 ```
       function solution(n, arr, target) {
         let tree = [];
