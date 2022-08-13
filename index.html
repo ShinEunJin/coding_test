@@ -21,49 +21,58 @@
           graph[x[0]][x[1]] = 1;
           graph[x[1]][x[0]] = 1;
           dfsGraph[x[0]][x[1]] = 1;
+          dfsGraph[x[1]][x[0]] = 1;
           bfsGraph[x[0]][x[1]] = 1;
           bfsGraph[x[1]][x[0]] = 1;
         }
-
         console.log(graph);
-
+        // DFS
+        let dfsCheck = [];
+        dfsCheck[v] = 1;
         function DFS(L) {
-          if (dfs.length === n) return;
           for (let i = 0; i < n + 1; i++) {
-            if (dfsGraph[L][i] === 1) {
+            if (dfsGraph[L][i] === 1 && !dfsCheck[i]) {
               dfs.push(i);
+              dfsCheck[i] = 1;
               dfsGraph[L][i] = 0;
+              dfsGraph[i][L] = 0;
               DFS(i);
             }
           }
         }
         DFS(v);
 
+        // BFS
         let queue = [v];
+        let bfsCheck = [];
+        bfsCheck[v] = 1;
         while (queue.length) {
           let L = queue.shift();
           for (let i = 0; i < n + 1; i++) {
-            if (bfsGraph[L][i] === 1) {
-              queue.push(i);
+            if (bfsGraph[L][i] === 1 && !bfsCheck[i]) {
               bfs.push(i);
+              bfsCheck[i] = 1;
+              queue.push(i);
               bfsGraph[L][i] = 0;
               bfsGraph[i][L] = 0;
             }
           }
         }
 
-        console.log(dfs, bfs);
+        console.log(dfs.join(" "));
+        console.log(bfs.join(" "));
       }
 
-      let a = 4;
-      let b = 5;
+      let a = 5;
+      let b = 6;
       let c = 1;
       let d = [
-        [1, 2],
         [1, 3],
-        [1, 4],
-        [2, 4],
+        [1, 5],
+        [3, 5],
         [3, 4],
+        [3, 2],
+        [2, 4],
       ];
 
       console.log(solution(a, b, c, d));
