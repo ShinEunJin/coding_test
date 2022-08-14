@@ -14,5 +14,9 @@ const input = fs.readFileSync('/dev/stdin').toString().split(' ');
 
 #### 220811
 
-simulation - 1. 프로그래머스\_2\_쿼드압축 후 개수 세기
-220811 1. 백준\_골드5_1092\_배
+dac - 1. 프로그래머스\_2\_쿼드압축 후 개수 세기
+greedy - 1. 백준\_골드5_1092\_배
+
+#### 220813
+
+bfs - 3. 백준\_실버2_1260_DFS와 BFS

@@ -102,3 +102,50 @@ bfs 전형적인 문제. bfs 에서 어떻게 level 단계를 넣는지 알 수 
 최종 정리 코드. queue 인덱스 마지막 요소로 cnt를 줘서 가독성이 좋아졌다.
 그리고 문제 풀때 주의할 점이 있다. row 와 col 이 많이 헷갈릴 수 있다.
 y축은 row, x축은 col과 연관있고 헷갈린다면 col을 중심으로 생각하면 편하다.
+
+220813 3. 백준_실버2_1260_DFS와 BFS
+
+dfs와 bfs의 기본을 담은 문제. 처음에는 2차원 배열을 만들었는데 인접리스트를 사용하는게 훨씬 좋다.
+주의할점은 양방향이기 때문에 graph[a].push(b) 와 graph[b].push(a)를 같이 해줘야한다.
+인접리스트 배열로 dfs와 bfs를 모두 연습할 수 있는 좋은 문제다.
+
+```
+      function solution(n, m, v, arr) {
+        let graph = Array.from({ length: n + 1 }, () => Array());
+        for (let [a, b] of arr) {
+          graph[a].push(b);
+          graph[b].push(a);
+        }
+
+        function DFS(start) {
+          let path = [start];
+          function search(L) {
+            for (let val of graph[L].sort((a, b) => a - b)) {
+              if (!path.includes(val)) {
+                path.push(val);
+                search(val);
+              }
+            }
+          }
+          search(start);
+          return path;
+        }
+
+        function BFS(start) {
+          let queue = [start];
+          let path = [start];
+          while (queue.length) {
+            let val = queue.shift();
+            for (let nv of graph[val].sort((a, b) => a - b)) {
+              if (!path.includes(nv)) {
+                path.push(nv);
+                queue.push(nv);
+              }
+            }
+          }
+          return path;
+        }
+
+        console.log(DFS(v), BFS(v));
+      }
+```
