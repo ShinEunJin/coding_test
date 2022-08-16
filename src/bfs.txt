@@ -149,3 +149,58 @@ dfs와 bfs의 기본을 담은 문제. 처음에는 2차원 배열을 만들었�
         console.log(DFS(v), BFS(v));
       }
 ```
+
+220727 4. 백준_골드5_7576_토마토
+
+이 bfs문제에서 알아야 할게 있다. 시작점이 여러개인것과 -1로 덮여있는 0을 마지막에 체크해야 하는것
+그리고 마지막으로 queue.shift의 시간 문제다.
+
+첫번째 시작점이 여러개인 것은 그냥 이중for문으로 queue에 넣어주면 된다.
+두번째 0체크도 그냥 이중for문으로 해결
+(문제 범위를 보면 이중for문시 최대 1,000,000의 경우의수가 있는데 이정도는 js도 그냥 돌릴 수 있다.)
+
+세번째 queue.shift 사용시 시간 초과 문제를 떠서 고생을 했다.
+일단 알아야 할게 범위가 백만단위가 되면 shift 쓰기가 애매할 때가 있다는 걸 인지해야 한다.
+
+문제를 보면 굳이 queue에서 shift를 사용할 필요가 없고 계속 queue에 쌓아줘도 문제 없다.
+t = 0을 설정하고 한번 탐색할 때마다 t++ 그리고 t가 queue.length를 넘으면 중지시켜 주면 된다.
+
+확실히 shift를 사용하면 O(n)의 복잡도를 가지니까 위의 방법을 쓰자.(때에 따라)
+
+```
+      function solution(m, n, farm) {
+        let answer = 0;
+
+        let queue = [];
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < m; j++) {
+            if (farm[i][j] === 1) queue.push([i, j, 0]);
+          }
+        }
+
+        const dy = [-1, 0, 1, 0];
+        const dx = [0, -1, 0, 1];
+
+        let t = 0;
+        while (t < queue.length) {
+          let [y, x, cnt] = queue[t++];
+          answer = cnt;
+          for (let k = 0; k < 4; k++) {
+            const py = y + dy[k];
+            const px = x + dx[k];
+            if (0 <= py && py < n && 0 <= px && px < m && farm[py][px] === 0) {
+              queue.push([py, px, cnt + 1]);
+              farm[py][px] = 1;
+            }
+          }
+        }
+
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < m; j++) {
+            if (farm[i][j] === 0) return -1;
+          }
+        }
+
+        return answer;
+      }
+```
