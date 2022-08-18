@@ -100,3 +100,44 @@ oper[i]++ 와 함께 값을 복구시키기 위해 sum = priorSum을 해줘야 �
         return cnt;
       }
 ```
+
+220817 4. 프로그래머스_2_조이스틱
+
+```
+      function solution(name) {
+        const alphabet = {
+          "생략"
+        };
+
+        let answer = [];
+        let check = "A".repeat(name.length);
+
+        function search(i, cnt, name) {
+          cnt += alphabet[name[i]];
+          name = name.slice(0, i) + "A" + name.slice(i + 1);
+          if (name === check) return answer.push(cnt);
+          let left = i;
+          let right = i;
+          let stop = 0;
+          while (stop < 2) {
+            cnt++;
+            left--;
+            right++;
+            if (left < 0) left = name.length + left;
+            if (right > name.length - 1) right = right - name.length;
+            if (name[right] && name[right] !== "A") {
+              search(right, cnt, name);
+              stop++;
+            }
+            if (name[left] && name[left] !== "A") {
+              search(left, cnt, name);
+              stop++;
+            }
+          }
+        }
+
+        search(0, 0, name);
+
+        return Math.min(...answer);
+      }
+```

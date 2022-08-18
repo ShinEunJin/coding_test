@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>코딩테스트 문제 정리</title>
-  </head>
-  <body>
-    <script>
+220818 1. 프로그래머스_2_후보키
+
+```
       function solution(relation) {
         let colLen = relation.length;
         let rowLen = relation[0].length;
@@ -47,15 +42,4 @@
 
         return check.length;
       }
-
-      let a = [
-        ["a", 1, "aaa", "c", "ng"],
-        ["b", 1, "bbb", "c", "g"],
-        ["c", 1, "aaa", "d", "ng"],
-        ["d", 2, "bbb", "d", "ng"],
-      ];
-
-      console.log(solution(a));
-    </script>
-  </body>
-</html>
+```
