@@ -6,56 +6,42 @@
   </head>
   <body>
     <script>
-      function solution(relation) {
-        let colLen = relation.length;
-        let rowLen = relation[0].length;
-        let check = [];
+      function solution(N, road, K) {
+        let graph = Array.from({ length: N + 1 }, () => Array());
+        let check = Array.from({ length: N + 1 }, () => 10001);
 
-        function checkUniqueness(arr) {
-          let colTmp = [];
-          for (let i = 0; i < colLen; i++) {
-            let rowTmp = "";
-            for (let j = 0; j < arr.length; j++) {
-              rowTmp += `${relation[i][arr[j]]},`;
-            }
-            if (colTmp.includes(rowTmp)) return false;
-            colTmp.push(rowTmp);
-          }
-          return true;
+        for (let x of road) {
+          graph[x[0]].push([x[1], x[2]]);
+          graph[x[1]].push([x[0], x[2]]);
         }
 
-        function checkMinimality(arr) {
-          if (check.length === 0) return false;
-          return check.some((a) => a.every((b) => arr.includes(b)));
-        }
-
-        function DFS(L, s, t, row) {
-          if (L === t) {
-            if (checkUniqueness(row) && !checkMinimality(row))
-              check.push(row.slice());
-          } else {
-            for (let i = s; i < rowLen; i++) {
-              row[L] = i;
-              DFS(L + 1, i + 1, t, row);
+        let queue = [[1, 0]];
+        check[1] = 0;
+        while (queue.length) {
+          let [v, t] = queue.shift();
+          for (let [nv, nt] of graph[v]) {
+            if (check[nv] > check[v] + nt) {
+              check[nv] = check[v] + nt;
+              queue.push([nv, nt]);
             }
           }
         }
 
-        for (let i = 1; i <= rowLen; i++) {
-          DFS(0, 0, i, []);
-        }
-
-        return check.length;
+        return check;
       }
 
-      let a = [
-        ["a", 1, "aaa", "c", "ng"],
-        ["b", 1, "bbb", "c", "g"],
-        ["c", 1, "aaa", "d", "ng"],
-        ["d", 2, "bbb", "d", "ng"],
+      let a = 5;
+      let b = [
+        [1, 2, 1],
+        [2, 3, 3],
+        [5, 2, 2],
+        [1, 4, 2],
+        [5, 3, 1],
+        [5, 4, 2],
       ];
+      let c = 3;
 
-      console.log(solution(a));
+      console.log(solution(a, b, c));
     </script>
   </body>
 </html>
