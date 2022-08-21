@@ -53,3 +53,31 @@
         }
       }
 ```
+
+220821 3. 프로그래머스_2_배달
+
+```
+      function solution(N, road, K) {
+        let graph = Array.from({ length: N + 1 }, () => Array());
+        let check = Array.from({ length: N + 1 }, () => 10001);
+
+        for (let x of road) {
+          graph[x[0]].push([x[1], x[2]]);
+          graph[x[1]].push([x[0], x[2]]);
+        }
+
+        let queue = [[1, 0]];
+        check[1] = 0;
+        while (queue.length) {
+          let [v, t] = queue.shift();
+          for (let [nv, nt] of graph[v]) {
+            if (check[nv] > check[v] + nt) {
+              check[nv] = check[v] + nt;
+              queue.push([nv, nt]);
+            }
+          }
+        }
+
+        return check;
+      }
+```

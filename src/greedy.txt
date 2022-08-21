@@ -26,3 +26,28 @@
         return cnt;
       }
 ```
+
+220821 2. 프로그래머스_2_두 큐 합 같게 만들기
+
+```
+      function solution(queue1, queue2) {
+        let cnt = 0;
+        let queue = [...queue1, ...queue2];
+        const target = queue.reduce((a, b) => a + b, 0) / 2;
+
+        let lp = 0;
+        let rp = queue.length / 2;
+        let sum = 0;
+        for (let i = lp; i < rp; i++) {
+          sum += queue[i];
+        }
+        while (lp < queue.length && rp < 2 * queue.length) {
+          if (sum === target) return cnt;
+          if (sum < target) sum += queue[rp++];
+          else sum -= queue[lp++];
+          cnt++;
+        }
+
+        return -1;
+      }
+```
