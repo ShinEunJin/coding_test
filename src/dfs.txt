@@ -141,3 +141,51 @@ oper[i]++ 와 함께 값을 복구시키기 위해 sum = priorSum을 해줘야 �
         return Math.min(...answer);
       }
 ```
+
+220825 5. 프로그래머스_2_양궁대회
+
+```
+      function solution(n, info) {
+        if (info[0] === n) return [-1];
+        let answer = [];
+        let len = info.length;
+        let needs = info.map((v) => v + 1);
+        let tmp = [];
+        let maxTmp = Number.MIN_SAFE_INTEGER;
+
+        function DFS(L, s, m) {
+          if (L === m) {
+            let arr = Array.from({ length: len }, () => 0);
+            for (let score of tmp) {
+              arr[len - 1 - score] = needs[len - 1 - score];
+            }
+            let numberOfShots = n - arr.reduce((a, b) => a + b, 0);
+            if (numberOfShots < 0) return;
+            let scoreDiff = 0;
+            for (let i = 0; i < len; i++) {
+              if (info[i] || arr[i]) {
+                if (info[i] >= arr[i]) scoreDiff -= len - 1 - i;
+                else scoreDiff += len - 1 - i;
+              }
+            }
+            if (scoreDiff >= maxTmp) {
+              maxTmp = scoreDiff;
+              if (numberOfShots < n) arr[len - 1] = numberOfShots;
+              if (maxTmp === 0) return (answer = [-1]);
+              else answer = arr;
+            }
+          } else {
+            for (let i = s; i < len; i++) {
+              tmp[L] = i;
+              DFS(L + 1, i + 1, m);
+            }
+          }
+        }
+
+        for (let i = 1; i <= len; i++) {
+          DFS(0, 1, i);
+        }
+
+        return answer.length > 0 ? answer : [-1];
+      }
+```

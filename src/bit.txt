@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>코딩테스트 문제 정리</title>
-  </head>
-  <body>
-    <script>
+220825 1. 프로그래머스_2_2개 이하로 같은 비트
+
+```
       function solution(numbers) {
         let answer = [];
         for (let number of numbers) {
@@ -24,10 +19,4 @@
         }
         return answer;
       }
-
-      let a = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29];
-
-      console.log(solution(a));
-    </script>
-  </body>
-</html>
+```
