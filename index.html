@@ -6,28 +6,63 @@
   </head>
   <body>
     <script>
-      function solution(numbers) {
-        let answer = [];
-        for (let number of numbers) {
-          if (number % 2 === 0) answer.push(number + 1);
-          else {
-            let binary = "0" + number.toString(2);
-            let len = binary.length - 1;
-            for (let i = len; i >= 0; i--) {
-              if (binary[i] === "0") {
-                binary = binary.slice(0, i) + "10" + binary.slice(i + 2);
-                break;
-              }
-            }
-            answer.push(parseInt(parsing, 2));
+      function solution(n, m, city) {
+        let chickenRestaurants = [];
+        let houses = [];
+        let survivorChickenRestaurants = [];
+        let chickenDistanceOfCity = Number.MAX_SAFE_INTEGER;
+
+        for (let r = 0; r < n; r++) {
+          for (let c = 0; c < n; c++) {
+            if (city[r][c] === 1) houses.push([r + 1, c + 1]);
+            if (city[r][c] === 2) chickenRestaurants.push([r + 1, c + 1]);
           }
         }
-        return answer;
+
+        function combination(L, s, arr) {
+          if (L === m) survivorChickenRestaurants.push(arr.slice());
+          else {
+            for (let i = s; i < chickenRestaurants.length; i++) {
+              arr[L] = chickenRestaurants[i];
+              combination(L + 1, i + 1, arr);
+            }
+          }
+        }
+
+        combination(0, 0, []);
+
+        for (let i = 0; i < survivorChickenRestaurants.length; i++) {
+          let sumOfDistance = 0;
+          for (let k = 0; k < houses.length; k++) {
+            let min = Number.MAX_SAFE_INTEGER;
+            for (let j = 0; j < survivorChickenRestaurants[i].length; j++) {
+              let chickenDistance =
+                Math.abs(survivorChickenRestaurants[i][j][0] - houses[k][0]) +
+                Math.abs(survivorChickenRestaurants[i][j][1] - houses[k][1]);
+              min = Math.min(min, chickenDistance);
+            }
+            sumOfDistance += min;
+          }
+          chickenDistanceOfCity = Math.min(
+            sumOfDistance,
+            chickenDistanceOfCity
+          );
+        }
+
+        return chickenDistanceOfCity;
       }
 
-      let a = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29];
+      let a = 5;
+      let b = 2;
+      let c = [
+        [0, 2, 0, 1, 0],
+        [1, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [2, 0, 0, 1, 1],
+        [2, 2, 0, 1, 2],
+      ];
 
-      console.log(solution(a));
+      console.log(solution(a, b, c));
     </script>
   </body>
 </html>
