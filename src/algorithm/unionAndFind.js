@@ -7,6 +7,10 @@ function getParent(n) {
   // node[n]을 초기화 해줘야 하는거 주의
   if (n === node[n]) return n;
   return (node[n] = getParent(node[n]));
+  // 이거와 동일
+  // if(n === node([n])) return n;
+  // node[n] = getParent(node[n])
+  // return node[n]
 }
 
 function unionNode(a, b) {
