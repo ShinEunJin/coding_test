@@ -33,12 +33,14 @@ while (queue.length) {
 
   // 이미 queue에 있는 요소들은 인접 차수가 0 처리된 곳이라서
   // 따로 방문처리 하지않아도 바로 결과값에 넣으면 된다.
+  // + 우선순위큐를 사용해 위상정렬을 사용하는 경우도 많다.
   result.push(cur);
 
   if (graph[cur].length) {
     for (const next of graph[cur]) {
       // 인접 정점을 갔다는 뜻이므로
       // 인접 정점의 인접 차수를 먼저 -1 해줘야 한다.
+      // 인접 정점이 0, 즉 자기보다 우선하는 것들이 없을때 queue에 넣어야한다.
       if (--inDegree[next] === 0) queue.push(next);
     }
   }
